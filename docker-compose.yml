@@ -6,3 +6,5 @@ services:
     restart: always
     ports:
       - '51235:51235'
+    volumes:
+      - ./ripple/keystore/:/keystore/ 
