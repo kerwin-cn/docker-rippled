@@ -2,7 +2,7 @@ version: '2'
 
 services:
   rippled-server:
-    build: ./rippled
+    build: ./ripple
     restart: always
     ports:
       - '51235:51235'
