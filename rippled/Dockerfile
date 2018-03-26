@@ -26,5 +26,7 @@ RUN cp src/cfg/rippled-example.cfg rippled.cfg
 # clean source
 RUN rm -r src
 
+EXPOSE 51235
+
 # launch rippled when launching the container
 ENTRYPOINT ./rippled

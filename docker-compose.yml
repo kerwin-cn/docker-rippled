@@ -8,5 +8,4 @@ services:
       - '51235:51235'
     volumes:
       - "./ripple/keystore/:/keystore/" 
-      - "./ripple/rippled.conf:/etc/rippled.conf"
-    command: "--conf /etc/rippled.conf"
+
