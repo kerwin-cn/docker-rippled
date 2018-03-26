@@ -6,6 +6,9 @@ services:
     restart: always
     ports:
       - '51235:51235'
+      - '5005:5005'
+      - '6006:6006'
     volumes:
-      - "./ripple/keystore/:/keystore/" 
-
+      - "./rippled/keystore/:/keystore/"
+      - "./rippled/rippled.conf/:/etc/opt/ripple/"
+#    command: "--conf /rippled.conf/rippled.cfg"

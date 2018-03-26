@@ -1,32 +1,16 @@
-# rippled
+FROM ubuntu:16.04
 
-# use the ubuntu base image
-FROM ubuntu
-MAINTAINER Roberto Catini roberto.catini@gmail.com
+MAINTAINER Jaka Hudoklin <jaka@gatehub.net>
 
-# make sure the package repository is up to date
+# Official instructions from
+# https://ripple.com/build/rippled-setup/#installation-on-ubuntu-with-alien
 RUN apt-get update
-RUN apt-get -y upgrade
-
-# install the dependencies
-RUN apt-get -y install git scons pkg-config protobuf-compiler libprotobuf-dev libssl-dev libboost1.55-all-dev
-
-# download source code from official repository
-RUN git clone https://github.com/ripple/rippled.git src; cd src/; git checkout master
-
-# compile
-RUN cd src/; scons build/rippled
-
-# move to root directory and strip
-RUN cp src/build/rippled rippled; strip rippled
-
-# copy default config
-RUN cp src/cfg/rippled-example.cfg rippled.cfg
-
-# clean source
-RUN rm -r src
+RUN apt-get install -y yum-utils alien
+RUN rpm -Uvh https://mirrors.ripple.com/ripple-repo-el7.rpm
+RUN yumdownloader --enablerepo=ripple-stable --releasever=el7 rippled
+RUN rpm --import https://mirrors.ripple.com/rpm/RPM-GPG-KEY-ripple-release && rpm -K rippled*.rpm
+RUN alien -i --scripts rippled*.rpm && rm rippled*.rpm
 
 EXPOSE 51235
 
-# launch rippled when launching the container
-ENTRYPOINT ./rippled
+ENTRYPOINT ["/opt/ripple/bin/rippled"]
